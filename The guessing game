@@ -1,0 +1,72 @@
+using System;
+using System.Numerics;
+using System.Runtime.InteropServices.JavaScript;
+
+namespace Copilotgame
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            ShowIntro();
+
+            bool playAgain = true;
+
+            //MS Copilot assisted in the development of this program by helpin plan the structure of the code and the idea behind the game in general!! I was complicating my life a lot
+            //with it, but it was trully helpfull!!
+
+            while (playAgain)
+            {
+                PlayRound();
+                playAgain = AskToPlayAgain();
+            }
+
+            Console.WriteLine("Thanks for playing!");
+        }
+
+        static void ShowIntro()
+        {
+            Console.WriteLine("Welcome to the Guessing Game!");
+            Console.WriteLine("I'm thinking of a number between 1 and 20.");
+            Console.WriteLine("Try to guess it in as few attempts as possible.\n");
+        }
+
+        static void PlayRound()
+        {
+            Random rand = new Random();
+            int secret = rand.Next(1, 21);
+            int attempts = 0;
+            int guess = 0;
+
+            while (guess != secret)
+            {
+                Console.Write("Enter your guess: ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out guess))
+                {
+                    attempts++;
+
+                    if (guess < secret)
+                        Console.WriteLine("Too low!\n");
+                    else if (guess > secret)
+                        Console.WriteLine("Too high!\n");
+                    else
+                        Console.WriteLine($"Correct! You guessed it in {attempts} attempts.\n");
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid number.\n");
+                }
+            }
+        }
+
+        static bool AskToPlayAgain()
+        {
+            Console.Write("Play again? (y/n): ");
+            string answer = Console.ReadLine().ToLower();
+
+            return answer == "y";
+        }
+    }
+}
